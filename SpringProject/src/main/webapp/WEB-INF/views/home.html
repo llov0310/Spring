@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="include/layout">
+
+<th:block layout:fragment="page_head">
+	<title>로그인</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/js/home.js"></script>
+    
+</th:block>
+
+
+<th:block layout:fragment="contents">
+
+
+	<div class="card align-middle" style="width:500px; height:500px; border-radius:20px;">
+		<div class="card-title" style="margin-top:30px;">
+			<h2 class="card-title text-center" style="color:#113366;">로그인 폼</h2>
+		</div>
+		<div class="card-body">
+	
+      
+        <h5 class="form-signin-heading">로그인 정보를 입력하세요</h5>
+        <label for="inputEmail" class="sr-only">Your ID</label>
+        <input type="text" id="user_id" class="form-control" placeholder="Your ID" required autofocus><BR>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" required><br>
+        
+        <button id="btn-login" class="btn btn-lg btn-primary btn-block" type="submit">로 그 인</button>
+        <button id="btn-sign" class="btn btn-lg btn-primary btn-block" type="submit">회 원 가 입</button>
+  
+      
+		</div>
+	</div>
+
+	<div class="modal">
+	</div>
+
+
+</th:block>
+
+</html>

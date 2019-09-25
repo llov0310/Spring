@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="include/layout">
+<th:block layout:fragment="page_head">
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script>
+		$(document).ready(function() {
+
+			$("#add").click(function() {
+
+				var title = $("#title").val();
+				var content = $("#content").val();
+
+				var query = {
+					title : title,
+					content : content
+				}
+
+				$.ajax({
+					url : '/addwritepost',
+					type : 'POST',
+					data : query,
+					success : function(data) {
+						if (data == 1) {
+							location.href = "/mainpost"
+						} else {
+							alert("오류발생!");
+
+						}
+					}
+				});
+
+			});
+
+		});
+	</script>
+
+	<style>
+h2 {
+	position: absolute;
+	width: 900px;
+	height: 500px;
+	left: 50%;
+	top: 50%;
+	margin-left: -450px;
+	margin-top: -450px;
+}
+
+#top {
+	position: absolute;
+	width: 900px;
+	height: 500px;
+	left: 50%;
+	top: 50%;
+	margin-left: -450px;
+	margin-top: -350px;
+}
+</style>
+
+</th:block>
+
+
+<th:block layout:fragment="contents">
+
+	<H2>게시글 등록</H2>
+
+	<div id="top">
+		<label for="exampleForm2">제목</label> <input type="text" id="title"
+			class="form-control">
+
+		<hr>
+
+		<label for="exampleForm2">내용</label> <input type="text" id="content"
+			class="form-control" style="padding-bottom: 462px;">
+
+		<hr>
+
+		<button id="add" class="btn btn-primary"
+			style="width: 150px; height: 55px; float: right; margin-right: 2%;">등록하기</button>
+
+	</div>
+
+</th:block>
+
+</html>

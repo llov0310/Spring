@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.together.mapper.HomeMapper">
+
+	<select id="login" resultType="com.together.domain.MemberVO">
+	
+	select * from member
+	where user_id = #{user_id}
+	and password = #{password}
+	
+	</select>
+	
+	
+	<select id="post" resultType="com.together.domain.PostVO">
+	
+	select *,DATE_FORMAT(post_dt,'%Y.%m.%d %h:%m:%s') post_dt_char from post
+	
+	</select>
+	
+	<insert id="writepost" parameterType="com.together.domain.PostVO">
+	
+	insert into post(post_dt,user_id,post_title,post_info,post_cont) 
+	values(NOW(),#{user_id},#{post_title},#{post_info},0)
+	
+	</insert>
+	
+	<select id="getPostview" resultType="com.together.domain.PostVO">
+	
+	select *,DATE_FORMAT(post_dt,'%Y.%m.%d %h:%m:%s') post_dt_char
+	from post
+	where post_cd = #{num}
+	
+	</select>
+	
+	<select id="getCommentview" resultType="com.together.domain.PostVO">
+	
+	select *,DATE_FORMAT(cmt_dt,'%Y.%m.%d %h:%m:%s') cmt_dt_char 
+	from comment
+	where post_cd = #{postnum}
+	
+	</select>
+	
+	
+	
+	
+</mapper>

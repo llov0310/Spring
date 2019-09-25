@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="include/layout">
+
+<th:block layout:fragment="page_head">
+	<title>상세게시글</title>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    
+    <script>
+    
+    $(document).ready(function(){
+    	
+    
+    
+	$("#back").on('click',function(){
+		
+		window.location.href = "/mainpost";
+		
+	});
+	
+    });
+    
+    </script>
+    
+    <style>
+h2 {
+	position: absolute;
+	width: 900px;
+	height: 500px;
+	left: 50%;
+	top: 50%;
+	margin-left: -450px;
+	margin-top: -450px;
+}
+
+h2 > button {
+
+	float:right;
+	margin : 2px;
+	
+
+}
+
+#top {
+	position: absolute;
+	width: 900px;
+	height: 500px;
+	left: 50%;
+	top: 50%;
+	margin-left: -450px;
+	margin-top: -350px;
+}
+
+
+    </style>
+</th:block>
+
+
+<th:block layout:fragment="contents">
+
+<H2>상세게시글
+	
+	<button th:if="${grant == 1}" type="button" class="btn btn-primary">수정하기</button>
+	<button th:if="${grant == 1}" type="button" class="btn btn-danger">삭제하기</button>
+	<button type="button" class="btn btn-info" id="back">목록으로</button>
+	
+</H2>
+
+
+	
+
+	<div id="top" th:if="${post != null}">
+		<label for="exampleForm2">제목</label> <label id="title"
+			class="form-control" th:text="${post[0].post_title}" style="padding-bottom: 30px;"></label>
+
+		<hr>
+
+		<label for="exampleForm2">내용</label> <label id="content"
+			class="form-control" th:text="${post[0].post_info}" style="padding-bottom: 300px; overflow-y:scroll"></label>
+
+		<hr>
+		
+	
+		<div id="bottom" th:if="${comment != null}" th:each="comment : ${comment}">
+			<label th:text="${comment.user_id}"></label><span style="float:right;" th:text="${comment.cmt_dt_char}"></span><br>
+			<label th:text="${comment.cmt_info}"></label>
+			<hr>
+		</div>
+		
+		
+		<label for="exampleForm2">댓글목록</label><input id="comment"
+			class="form-control" style="padding-bottom: 50px;"></input>
+		<button id="addcomment" class="btn btn-primary" style="float:right; margin-top:2%;">댓글달기</button>
+		
+
+	</div>
+	
+	
+	
+
+</th:block>
+
+</html>
