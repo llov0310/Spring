@@ -8,15 +8,19 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<script>
 		$(document).ready(function() {
+			
+			$("#reload").hide();
 
 			$("#add").click(function() {
 
 				var title = $("#title").val();
 				var content = $("#content").val();
+				var filename = $("#attachFile").text();
 
 				var query = {
 					title : title,
-					content : content
+					content : content,
+					filename : filename
 				}
 
 				$.ajax({
@@ -34,6 +38,59 @@
 				});
 
 			});
+			
+			$("#upload").click(function(){
+			
+				
+// 				 event.preventDefault();
+				 
+				// Get form
+			        var form = $('#formupload')[0];
+			 
+			        // Create an FormData object 
+			        var data = new FormData(form);
+			
+			 
+			        $.ajax({
+			            type: "POST",
+			            enctype: 'multipart/form-data',
+			            url: "/fileupload",
+			            data: data,
+			            processData: false,
+			            contentType: false,
+			            cache: false,
+			            timeout: 600000,
+			            success: function (data) {
+			            	
+			            	if(data == "0"){
+			            		
+			            		alert("업로드실패");
+			                
+			            	}else{
+			            		
+			            		alert("업로드 완료");
+				                $("#upload").hide();
+				                $("#reload").show();
+				                $("#attachFile").text(data);
+			            	}
+			            	
+			            }
+			        
+			      });
+			   
+
+			});
+			
+			
+			$("#reload").click(function(){
+				
+				alert("등록할 파일을 새로 선택해 주세요");
+				$("#upload").show();
+                $("#reload").hide();
+                $("#attachFile").text("");
+				
+			});
+		
 
 		});
 	</script>
@@ -65,6 +122,7 @@ h2 {
 
 <th:block layout:fragment="contents">
 
+
 	<H2>게시글 등록</H2>
 
 	<div id="top">
@@ -77,12 +135,24 @@ h2 {
 			class="form-control" style="padding-bottom: 462px;">
 
 		<hr>
-
+		
+		<form method="post" enctype="multipart/form-data" id="formupload">
+    	<input type="file" name="uploadfile" placeholder="파일 선택" /><br/>
+		</form>
+		
+		<button id="upload" class="btn btn-primary btn-sm">업로드</button>
+		<button id="reload" class="btn btn-info btn-sm">재등록</button>
+		<p id="attachFile" style="display:none"></p>
+		
+		
 		<button id="add" class="btn btn-primary"
 			style="width: 150px; height: 55px; float: right; margin-right: 2%;">등록하기</button>
 
 	</div>
 
+
+		
+		
 </th:block>
 
 </html>

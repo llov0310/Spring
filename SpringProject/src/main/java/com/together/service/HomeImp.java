@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
 import com.together.domain.PostVO;
@@ -44,7 +45,38 @@ public class HomeImp implements HomeService {
 	@Override
 	public ArrayList<CommentVO> getCommentview(String postnum) {
 		// TODO Auto-generated method stub
-		return mapper.getCommentview(postnum);
+		return mapper.getcommentview(postnum);
+	}
+
+	@Override
+	public int addComment(CommentVO cVO) {
+		System.out.println("임플리먼트");
+		System.out.println(cVO);
+		return mapper.addcomment(cVO);
+	}
+
+	@Override
+	public int DBupload(AttachVO aVO) {
+		// TODO Auto-generated method stub
+		return mapper.DBupload(aVO);
+	}
+
+	@Override
+	public ArrayList<PostVO> PostCode(PostVO postvo) {
+		// TODO Auto-generated method stub
+		return mapper.PostCode(postvo);
+	}
+
+	@Override
+	public int updateFile(AttachVO attachvo) {
+		// TODO Auto-generated method stub
+		return mapper.updatefile(attachvo);
+	}
+
+	@Override
+	public ArrayList<AttachVO> getAttachview(String postnum) {
+		// TODO Auto-generated method stub
+		return mapper.getattachview(postnum);
 	}
 
 

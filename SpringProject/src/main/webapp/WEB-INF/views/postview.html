@@ -20,6 +20,42 @@
 		
 		window.location.href = "/mainpost";
 		
+		});
+	
+	
+	$("#addcomment").click(function(){
+		
+		
+		var comment = $("#comment").val();
+		
+		if(!comment){
+			alert("댓글내용을 적어주세요!");
+		}else{
+		var url = document.location.href.split("/");
+
+		var postnum = url[4];
+		
+		console.log(comment);
+		console.log(postnum);
+		
+		var query = {comment : comment,
+				num : postnum}
+		
+		$.ajax({
+			url:"/addcomment",
+			type:"POST",
+			data : query,
+			success : function(data){
+				
+				if(data == "1"){
+					window.location.href = "/detailpost/"+postnum;
+				}else{
+					alert("에러발생");
+				}
+			}
+		});
+		}
+		
 	});
 	
     });
@@ -74,6 +110,8 @@ h2 > button {
 	
 
 	<div id="top" th:if="${post != null}">
+	
+		
 		<label for="exampleForm2">제목</label> <label id="title"
 			class="form-control" th:text="${post[0].post_title}" style="padding-bottom: 30px;"></label>
 
@@ -82,6 +120,18 @@ h2 > button {
 		<label for="exampleForm2">내용</label> <label id="content"
 			class="form-control" th:text="${post[0].post_info}" style="padding-bottom: 300px; overflow-y:scroll"></label>
 
+		<hr>
+		
+		<label for="exampleForm2">첨부파일</label>
+		
+		<div th:if="${file != null}">
+			
+			<label th:text="${file.at_name}"></label>
+			<label th:text="${file.at_uid}"></label>
+			<label th:text="${file.at_dt_char}"></label>
+			
+		</div>
+		
 		<hr>
 		
 	

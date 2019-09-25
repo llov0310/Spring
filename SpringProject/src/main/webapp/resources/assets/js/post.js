@@ -47,7 +47,7 @@ $(document).ready(function(){
 	});
 	
 	//상세보기게시글
-	$(".postnum").click(function(){
+	$(document).on('click','.postnum',function(){
 		
 		var postnum = $(this).find('td:eq(0)').text();
 		

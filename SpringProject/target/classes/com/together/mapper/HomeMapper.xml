@@ -33,6 +33,38 @@
 	
 	</select>
 	
+	<select id="getcommentview" resultType="com.together.domain.PostVO">
+	
+	select *,DATE_FORMAT(cmt_dt,'%Y.%m.%d %h:%m:%s') cmt_dt_char 
+	from comment
+	where post_cd = #{postnum}
+	
+	</select>
+	
+	<select id="getattachview" resultType="com.together.domain.AttachVO">
+	
+	select *,DATE_FORMAT(at_dt,'%Y.%m.%d %h:%m:%s') at_dt_char 
+	from attach
+	where post_cd = #{postnum}
+	
+	</select>
+	
+	
+	
+	<insert id="addcomment" parameterType="com.together.domain.CommentVO">
+	
+	insert into comment(post_cd,cmt_dt,user_id,cmt_info) 
+	values(#{post_cd},NOW(),#{user_id},#{cmt_info})
+	
+	</insert>
+	
+	<insert id="DBupload" parameterType="com.together.domain.AttachVO">
+	
+	insert into attach(at_name,at_dt,at_uid) 
+	values(#{at_name},NOW(),#{at_uid})
+	
+	</insert>
+	
 	<select id="getCommentview" resultType="com.together.domain.PostVO">
 	
 	select *,DATE_FORMAT(cmt_dt,'%Y.%m.%d %h:%m:%s') cmt_dt_char 
@@ -42,6 +74,17 @@
 	</select>
 	
 	
+	<select id="PostCode" resultType="com.together.domain.PostVO">
 	
+	select *,DATE_FORMAT(post_dt,'%Y.%m.%d %h:%m:%s') post_dt_char
+	from post
+	where post_info = #{post_info} and post_title = #{post_title}
+	
+	</select>
+	
+	<update id="updatefile" parameterType="com.together.domain.AttachVO">
+	update attach set post_cd = #{post_cd}
+	where at_uid = #{at_uid}
+	</update>
 	
 </mapper>
