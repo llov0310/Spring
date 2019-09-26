@@ -39,6 +39,9 @@ public interface HomeService {
 
 	//해당 게시글 첨부파일 가져오기;
 	ArrayList<AttachVO> getAttachview(String postnum);
+
+	//포스트 조회수상승
+	int postCount(String postnum);
 	
 
 	

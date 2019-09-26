@@ -13,4 +13,6 @@ public class AttachVO {
 	private String at_uid;
 	private String at_name;
 	private String at_dt_char;
+	private long at_size;
+	private double at_size_do;
 }

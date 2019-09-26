@@ -43,7 +43,8 @@
 	
 	<select id="getattachview" resultType="com.together.domain.AttachVO">
 	
-	select *,DATE_FORMAT(at_dt,'%Y.%m.%d %h:%m:%s') at_dt_char 
+	select at_uid,at_name,at_cd,post_cd,DATE_FORMAT(at_dt,'%Y.%m.%d %h:%m:%s') at_dt_char 
+	,Round(at_size/1024,2) as at_size_do
 	from attach
 	where post_cd = #{postnum}
 	
@@ -60,8 +61,8 @@
 	
 	<insert id="DBupload" parameterType="com.together.domain.AttachVO">
 	
-	insert into attach(at_name,at_dt,at_uid) 
-	values(#{at_name},NOW(),#{at_uid})
+	insert into attach(at_name,at_dt,at_uid,at_size) 
+	values(#{at_name},NOW(),#{at_uid},#{at_size})
 	
 	</insert>
 	
@@ -86,5 +87,11 @@
 	update attach set post_cd = #{post_cd}
 	where at_uid = #{at_uid}
 	</update>
+	
+	<update id="postcount" parameterType="com.together.domain.PostVO">
+	update post set post_cont = post_cont+1
+	where post_cd = #{postnum}
+	</update>
+	
 	
 </mapper>

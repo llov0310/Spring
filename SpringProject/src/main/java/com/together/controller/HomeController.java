@@ -1,15 +1,22 @@
 package com.together.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.mysql.cj.util.StringUtils;
 import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
@@ -98,10 +106,24 @@ public class HomeController {
   
    }
    
-   //회원가입 페이지 맵핑
+   //로그아웃
    @RequestMapping(value = "/logout", method=RequestMethod.GET)
-   public String logout(Model model,HttpSession session) {
+   public String logout(Model model,HttpSession session,HttpServletRequest request,
+		   HttpServletResponse response) {
 	   
+	   Cookie[] cookies = request.getCookies();
+
+	   if(cookies != null){
+
+	   for(int i=0; i< cookies.length; i++){
+
+	   cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
+
+	   response.addCookie(cookies[i]); // 응답 헤더에 추가
+
+	   }
+
+	   }
 	   session.invalidate();
 	   
 	   return "home";
@@ -144,6 +166,7 @@ public class HomeController {
        AttachVO AVO = new AttachVO();
        AVO.setAt_uid(result);
        AVO.setAt_name(uploadfile.getOriginalFilename());
+       AVO.setAt_size(uploadfile.getSize());
        
        
      int DBupload = homservice.DBupload(AVO);
@@ -203,6 +226,7 @@ public class HomeController {
      @RequestMapping(value = "/detailpost"+"/{postnum}", method=RequestMethod.GET)
      public String detailpost(Model model,HttpSession session,
     		 HttpServletRequest request,
+    		 HttpServletResponse response,
     		 @PathVariable String postnum) {
     	 
     	 String user_id = ((MemberVO) session.getAttribute("user")).getUser_id();
@@ -223,7 +247,35 @@ public class HomeController {
     	 
     	 if(DetailAttach.size() != 0) {
     		 model.addAttribute("file",DetailAttach.get(0));
+    		 
     	 }
+    	 
+    	 
+    	  // 저장된 쿠키 불러오기
+ 	    Cookie cookies[] = request.getCookies();
+ 	    Map<Object,Object> map = new HashMap<>();
+ 	    if(request.getCookies() != null){
+ 	    for (int i = 0; i < cookies.length; i++) {
+ 	    Cookie obj = cookies[i];
+ 	    map.put(obj.getName(),obj.getValue());
+ 	    }
+ 	    }
+
+ 	    // 저장된 쿠키중에 read_count 만 불러오기
+ 	    String readCount = (String) map.get("read_count");
+ 	     // 저장될 새로운 쿠키값 생성
+ 	    String newReadCount = "|" + postnum;
+
+ 	    // 저장된 쿠키에 새로운 쿠키값이 존재하는 지 검사
+ 	    if ( StringUtils.indexOfIgnoreCase(readCount, newReadCount) == -1 ) {
+ 	    	
+ 	          // 없을 경우 쿠키 생성
+ 	          Cookie cookie = new Cookie("read_count", readCount + newReadCount);
+ 	         
+ 	          response.addCookie(cookie);
+ 	          int postcount = homservice.postCount(postnum);
+    	 
+ 	    }
     	 
     	 return "postview";
    
@@ -251,6 +303,37 @@ public class HomeController {
   	 		return "0";
   	 	}
   
+   }
+   
+   @RequestMapping(value = "/downloadFile", method=RequestMethod.POST)
+   @ResponseBody
+   public byte[] downloadfile(Model model,HttpSession session,
+		   HttpServletResponse response,
+		   @RequestParam String filename,@RequestParam String fileuid) throws IOException {
+	   
+	  
+	        File file = new File("C:\\upload\\temp\\UPLOAD_PATH\\" + fileuid);
+	        byte[] bytes = FileCopyUtils.copyToByteArray(file);
+	        
+	        String fn = new String(file.getName().getBytes(), "iso_8859_1");
+	        
+	        response.setContentType("application/octet-stream; charset=utf-8");
+	        
+	        response.setHeader("Content-Disposition",
+	                "attachment;filename=\"" + filename + "\"");
+	        
+	        response.setContentLength(bytes.length);
+	        
+	        FileInputStream fileInputStream = new FileInputStream(file);
+	        ServletOutputStream servletOutputStream = response.getOutputStream();
+	       
+	        servletOutputStream.flush();//출력
+	        
+	        fileInputStream.close();
+	        
+	        
+	        return bytes;
+	
    }
    
 }

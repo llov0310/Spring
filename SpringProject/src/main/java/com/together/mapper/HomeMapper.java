@@ -39,4 +39,6 @@ public interface HomeMapper {
 	int updatefile(AttachVO attachvo);
 	//업로드된 파일의 포스트번호 부여
 
+	int postcount(String postnum);
+	//포스트 조회수상승 함수
 }

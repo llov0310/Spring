@@ -79,6 +79,12 @@ public class HomeImp implements HomeService {
 		return mapper.getattachview(postnum);
 	}
 
+	@Override
+	public int postCount(String postnum) {
+		// TODO Auto-generated method stub
+		return mapper.postcount(postnum);
+	}
+
 
 	
 

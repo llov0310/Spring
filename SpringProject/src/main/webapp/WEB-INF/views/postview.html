@@ -55,10 +55,12 @@
 			}
 		});
 		}
-		
+	
 	});
 	
-    });
+
+	
+});
     
     </script>
     
@@ -126,15 +128,25 @@ h2 > button {
 		
 		<div th:if="${file != null}">
 			
-			<label th:text="${file.at_name}"></label>
-			<label th:text="${file.at_uid}"></label>
-			<label th:text="${file.at_dt_char}"></label>
+			<label>파일 이름 - </label>
+<!-- 			<a href="${file.at_uid}" class="files" th:text="${file.at_name}" download="newfile"></a> -->
+			<label class="file_name" th:text="${file.at_name}"></label>
+			<span class="file_size" th:text="' ( '+${file.at_size_do} + ' MB )'"></span>
+<!-- 			<label th:text="${file.at_dt_char}" style="float:right"></label><br> -->
+<!-- 			<label class="fileuid" th:text="${file.at_uid}" style="display:none"></label> -->
+			
+			<form action="/downloadFile" method="post">
+			    <input type="hidden" name="fileuid" th:value="${file.at_uid}">
+			    <input type="hidden" name="filename" th:value="${file.at_name}">
+    			<input type="submit" value="다운로드">
+			</form>
+			
 			
 		</div>
 		
 		<hr>
 		
-	
+	<label for="exampleForm2">댓글목록</label>
 		<div id="bottom" th:if="${comment != null}" th:each="comment : ${comment}">
 			<label th:text="${comment.user_id}"></label><span style="float:right;" th:text="${comment.cmt_dt_char}"></span><br>
 			<label th:text="${comment.cmt_info}"></label>
@@ -142,7 +154,7 @@ h2 > button {
 		</div>
 		
 		
-		<label for="exampleForm2">댓글목록</label><input id="comment"
+		<input id="comment"
 			class="form-control" style="padding-bottom: 50px;"></input>
 		<button id="addcomment" class="btn btn-primary" style="float:right; margin-top:2%;">댓글달기</button>
 		
