@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.mysql.cj.util.StringUtils;
 import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
+import com.together.domain.Paging;
 import com.together.domain.PostVO;
 import com.together.service.HomeService;
 
@@ -58,6 +60,34 @@ public class HomeController {
    //로그인 페이지 맵핑
    @RequestMapping(value = "/mainpost", method=RequestMethod.GET)
    public String login(Model model,HttpServletRequest request) {
+	   
+	   Paging pig= new Paging();
+	   
+	   
+//	   if(pagenum == "1") {
+//		   pig.setStartNum(0);
+//		   pig.setEndNum(10);
+//	   }else if(pagenum == "2") {
+//		   pig.setStartNum(10);
+//		   pig.setEndNum(20);
+//	   }else if(pagenum == "3") {
+//		   pig.setStartNum(20);
+//		   pig.setEndNum(30);
+//	   }else if(pagenum == "4") {
+//		   pig.setStartNum(30);
+//		   pig.setEndNum(40);
+//	   }else if(pagenum == "5") {
+//		   pig.setStartNum(40);
+//		   pig.setEndNum(50);
+//	   }
+	   
+	   pig.setStartNum(0);
+	   pig.setEndNum(10);
+	   ArrayList<PostVO> getPostList = homservice.getPost(pig);
+	   
+	   
+	   model.addAttribute("post",getPostList);
+	   
 	   
 	   
 	   return "post";
@@ -130,20 +160,21 @@ public class HomeController {
   
    }
    
- //포스트리스트
-   @RequestMapping(value = "/getPost", method=RequestMethod.POST)
-   @ResponseBody
-   public ArrayList<PostVO> getPost(Model model,HttpSession session) {
-	   
-	   ArrayList<PostVO> getPostList = homservice.getPost();
-	   
-	   model.addAttribute("post",getPostList);
-	   System.out.println(getPostList);
-	   
-	return getPostList;
-
-	  
-   }
+// //포스트리스트
+//   @RequestMapping(value = "/getPost", method=RequestMethod.POST)
+//   @ResponseBody
+//   public ArrayList<PostVO> getPost(Model model,HttpSession session) {
+//
+//	   
+//	   ArrayList<PostVO> getPostList = homservice.getPost();
+//	   
+//	   model.addAttribute("post",getPostList);
+//	   System.out.println(getPostList);
+//	   
+//	return getPostList;
+//
+//	  
+//   }
    
    
  //포스트 작성탭 이동
@@ -154,7 +185,8 @@ public class HomeController {
   
    }
    
-   @RequestMapping(value = "/fileupload",method = RequestMethod.POST)
+   @RequestMapping(value = "/fileupload",method = RequestMethod.POST,  
+		   produces = "application/text; charset=utf8")
    @ResponseBody
    public String upload(MultipartFile uploadfile,HttpServletResponse response){
 	   System.out.println("upload() POST 호출");
@@ -170,7 +202,7 @@ public class HomeController {
        
        
      int DBupload = homservice.DBupload(AVO);
-       
+       System.out.println(result);
        
       if(result != null || DBupload != 0) {
     	  return result;
@@ -187,10 +219,11 @@ public class HomeController {
      public String addWritePost(Model model,HttpSession session,
     		 HttpServletRequest request,
     		 @RequestParam("title") String title, @RequestParam("content") String content,
-    		 @RequestParam("filename") String file) {
+    		 @RequestParam("filename") String file) throws UnsupportedEncodingException {
   	   
     	 
     	 System.out.println("이밑에가 값");
+    	 System.out.println(new String(file.getBytes("utf-8"), "euc-kr"));
     	 System.out.println(file);
     	String user_id = ((MemberVO) request.getSession().getAttribute("user")).getUser_id();
     	
@@ -202,6 +235,8 @@ public class HomeController {
     	 int addwritepost = homservice.addwritepost(postvo);
     	 
     	 ArrayList<PostVO> PostCode = homservice.PostCode(postvo);
+    	 
+    	 System.out.println(PostCode);
     	 
     	 AttachVO attachvo = new AttachVO();
     	 attachvo.setAt_uid(file);

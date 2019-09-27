@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
+import com.together.domain.Paging;
 import com.together.domain.PostVO;
 
 public interface HomeMapper {
@@ -12,7 +13,7 @@ public interface HomeMapper {
 	ArrayList<MemberVO> login(MemberVO mVO);
 	//로그인을 위한 함수 추가
 
-	ArrayList<PostVO> post();
+	ArrayList<PostVO> post(Paging pig);
 	//게시글을 전체 불러오기위한 함수 추가
 
 	int writepost(PostVO postvo);
@@ -41,4 +42,5 @@ public interface HomeMapper {
 
 	int postcount(String postnum);
 	//포스트 조회수상승 함수
+
 }

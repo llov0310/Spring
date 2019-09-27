@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
+import com.together.domain.Paging;
 import com.together.domain.PostVO;
 import com.together.mapper.HomeMapper;
 
@@ -25,9 +26,9 @@ public class HomeImp implements HomeService {
 	}
 
 	@Override
-	public ArrayList<PostVO> getPost() {
+	public ArrayList<PostVO> getPost(Paging pig) {
 		// TODO Auto-generated method stub
-		return mapper.post();
+		return mapper.post(pig);
 	}
 
 	@Override

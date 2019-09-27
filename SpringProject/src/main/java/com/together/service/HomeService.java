@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.together.domain.AttachVO;
 import com.together.domain.CommentVO;
 import com.together.domain.MemberVO;
+import com.together.domain.Paging;
 import com.together.domain.PostVO;
 
 public interface HomeService {
@@ -13,7 +14,7 @@ public interface HomeService {
 	ArrayList<MemberVO> login(MemberVO mVO);
 
 	//포스트 불러오기
-	ArrayList<PostVO> getPost();
+	ArrayList<PostVO> getPost(Paging pig);
 
 	
 	//포스트 작성
@@ -42,7 +43,7 @@ public interface HomeService {
 
 	//포스트 조회수상승
 	int postCount(String postnum);
-	
+
 
 	
 	

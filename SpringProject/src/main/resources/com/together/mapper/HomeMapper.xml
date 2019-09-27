@@ -10,12 +10,14 @@
 	and password = #{password}
 	
 	</select>
-	
+
 	
 	<select id="post" resultType="com.together.domain.PostVO">
-	
-	select *,DATE_FORMAT(post_dt,'%Y.%m.%d %h:%m:%s') post_dt_char from post
-	
+	<![CDATA[
+	SELECT @ROWNUM := @ROWNUM + 1 as page , a.*
+  	FROM (SELECT *,DATE_FORMAT(post_dt,'%Y.%m.%d %h:%m:%s') post_dt_char FROM post) as a ,(SELECT @ROWNUM := 0) as b
+  	LIMIT #{startNum}, #{endNum}
+	]]>
 	</select>
 	
 	<insert id="writepost" parameterType="com.together.domain.PostVO">

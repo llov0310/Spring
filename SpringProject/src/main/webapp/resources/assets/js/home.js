@@ -29,7 +29,7 @@ $(document).ready(function(){
 				}else if(data == "1"){
 					
 					alert("로그인 성공!");
-					location.href = "/mainpost";
+					window.location.href = "/mainpost";
 				}else{
 					
 					alert("존재하지 않는 아이디 입니다.");

@@ -24,5 +24,8 @@ public class PostVO {
 	private String equalsuid;
 
 	
+	//게시글 리스트 넘버
+	private int page;
+	
 	
 }
