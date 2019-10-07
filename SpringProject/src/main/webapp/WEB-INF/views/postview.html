@@ -58,6 +58,34 @@
 	
 	});
 	
+	
+	$("#modify").click(function(){
+		
+	});
+	
+	
+	$("#delete").click(function(){
+		
+		var url = document.location.href.split("/");
+
+		var postnum = url[4];
+		
+		
+		$.ajax({
+			url : "/postdelete",
+			type:"POST",
+			data : {postnum : postnum},
+			success : function(data){
+				
+				alert("삭제완료");
+				
+				window.location.href = "/mainpost";
+				
+			}
+		});
+		
+	});
+	
 
 	
 });
@@ -102,8 +130,8 @@ h2 > button {
 
 <H2>상세게시글
 	
-	<button th:if="${grant == 1}" type="button" class="btn btn-primary">수정하기</button>
-	<button th:if="${grant == 1}" type="button" class="btn btn-danger">삭제하기</button>
+	<button th:if="${grant == 1}" type="button" id="modify" class="btn btn-primary">수정하기</button>
+	<button th:if="${grant == 1}" type="button" id="delete" class="btn btn-danger">삭제하기</button>
 	<button type="button" class="btn btn-info" id="back">목록으로</button>
 	
 </H2>

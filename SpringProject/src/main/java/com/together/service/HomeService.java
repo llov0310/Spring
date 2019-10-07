@@ -44,6 +44,14 @@ public interface HomeService {
 	//포스트 조회수상승
 	int postCount(String postnum);
 
+	
+	//회원가입
+	int Sigh(MemberVO member);
+
+	// 포스트 삭제
+	int PostDel(String postnum);
+	
+
 
 	
 	

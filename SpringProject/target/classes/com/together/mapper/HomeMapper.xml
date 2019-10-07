@@ -10,6 +10,13 @@
 	and password = #{password}
 	
 	</select>
+	
+	<insert id="sigh" parameterType="com.together.domain.MemberVO">
+	
+	insert into member(user_id,user_ph,password,user_nm,user_gt,user_dt) 
+	values(#{user_id},#{user_ph},#{password},#{user_nm},1,NOW())
+	
+	</insert>
 
 	
 	<select id="post" resultType="com.together.domain.PostVO">
@@ -95,5 +102,9 @@
 	where post_cd = #{postnum}
 	</update>
 	
+	<delete id="postdel" parameterType="com.together.domain.PostVO">
+	delete from post
+	where post_cd = #{postnum}
+	</delete>
 	
 </mapper>

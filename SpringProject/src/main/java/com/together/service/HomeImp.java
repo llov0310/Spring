@@ -86,6 +86,18 @@ public class HomeImp implements HomeService {
 		return mapper.postcount(postnum);
 	}
 
+	@Override
+	public int Sigh(MemberVO member) {
+		// TODO Auto-generated method stub
+		return mapper.sigh(member);
+	}
+
+	@Override
+	public int PostDel(String postnum) {
+		// TODO Auto-generated method stub
+		return mapper.postdel(postnum);
+	}
+
 
 	
 

@@ -42,4 +42,10 @@ $(document).ready(function(){
 		
 	}); // click function END
 	
+	
+	//회원가입 -- 제작중
+	$("#btn-sign").click(function(){
+		window.location.href = "/signup"; 
+	});
+	
 }); // document.ready END

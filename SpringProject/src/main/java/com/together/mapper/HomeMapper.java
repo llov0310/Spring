@@ -43,4 +43,10 @@ public interface HomeMapper {
 	int postcount(String postnum);
 	//포스트 조회수상승 함수
 
+	int sigh(MemberVO member);
+	//회원가입
+
+	int postdel(String postnum);
+	//포스트 삭제
+
 }
